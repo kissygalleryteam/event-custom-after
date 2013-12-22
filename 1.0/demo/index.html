@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>EventCustomAfter的demo</title>
+    <script src="http://g.tbcdn.cn/kissy/k/1.4.1/seed-min.js" charset="utf-8"></script>
+</head>
+<body>
+<h2>EventCustomAfter的demo</h2>
+
+<script>
+    var S = KISSY;
+    if (S.Config.debug) {
+        var srcPath = "../../";
+        S.config({
+            packages:[
+                {
+                    name:"gallery/event-custom-after",
+                    path:srcPath,
+                    charset:"utf-8",
+                    ignorePackageNameInUri:true
+                }
+            ]
+        });
+    }
+
+    S.use('rich-base,gallery/event-custom-after/1.0/index', function (S, RichBase, EventCustomAfter) {
+        var Widget = RichBase.extend([EventCustomAfter], {});
+        var widget = new Widget();
+        
+        widget.publish('show', {
+           defaultFn: function() {
+               console.log('default show');
+           } 
+        });
+        
+        widget.on('show', function() {
+            console.log('before show');
+        });
+        
+        widget.after('show', function() {
+            console.log('after show');
+        });
+        
+        widget.fire('show');
+        
+        //before show
+        //default show
+        //after show
+        
+        widget.detach('show');
+        
+        widget.fire('show');
+        
+        //default show
+    });
+</script>
+</body>
+</html>

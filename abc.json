@@ -1,0 +1,15 @@
+{
+    "name": "event-custom-after",
+    "comName":"EventCustomAfter",
+    "version": "1.0",
+    "desc": "",
+    "tag":"自定义事件",
+    "githubName":"kingback",
+    "author": {
+        "name": "虎牙",
+        "email": "huya.nzb@alibaba-inc.com",
+        "page": ""
+    },
+    "type": "kissy-gallery",
+    "type-url": "http://gallery.kissyui.com/guide"
+}
