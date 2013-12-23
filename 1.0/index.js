@@ -146,7 +146,7 @@ KISSY.add(function (S) {
              * @method detach
              */
             detach: function() {
-                var ret = this._detach.apply(this, arguments),
+                var ret = this.detachOn.apply(this, arguments),
                     afterRet = this.detachAfter(this, arguments);
                 
                 return afterRet || ret;
@@ -169,7 +169,7 @@ KISSY.add(function (S) {
                     ret;
                 
                 this.reset = this.resetAfter;
-                this.fakeObservers.call(this, this._detach, S.makeArray(arguments));
+                this.fakeObservers.call(this, this.detachOn, S.makeArray(arguments));
                 this.reset = reset;
                 
                 return ret;
@@ -235,7 +235,7 @@ KISSY.add(function (S) {
             ce.afterObservers = [];
             ce._fire = ce.fire;
             ce._notify = ce.notify;
-            ce._detach = ce.detachOn = ce.detach;
+            ce.detachOn = ce.detach;
             S.mix(ce, CEInjectMethods, true);
         },
         
@@ -266,6 +266,87 @@ KISSY.add(function (S) {
             }, 0, type, fn, context);
             
             return this;
+        },
+        
+        /**
+         * 解除事件绑定
+         * @method detach
+         * @param {Object} type 事件类型
+         * @param {Object} fn 事件回调
+         * @param {Object} context 事件上下文
+         */
+        detach: function(type, fn, context) {
+            var self = this,
+                args = S.makeArray(arguments),
+                when = args[args.length - 1];
+            
+            if (when === 'on' || when === 'after') {
+                args.pop();
+            } else {
+                when = false;
+            }
+            
+            Utils.batchForType.apply(Utils, [function (type, fn, context) {
+                var cfg = Utils.normalizeParam(type, fn, context),
+                    customEvents,
+                    customEvent;
+                
+                type = cfg.type;
+                
+                if (type) {
+                    customEvent = getCustomEvent(self, type, true);
+                    if (customEvent) {
+                        if (when === 'on' && customEvent.detachOn) {
+                            customEvent.detachOn(cfg);
+                        } else if (when === 'after' && customEvent.detachAfter) {
+                            customEvent.detachAfter(cfg);
+                        } else {
+                            customEvent.detach(cfg);
+                        }
+                    }
+                } else {
+                    customEvents = self.getCustomEvents();
+                    S.each(customEvents, function (customEvent) {
+                        if (when === 'on' && customEvent.detachOn) {
+                            customEvent.detachOn(cfg);
+                        } else if (when === 'after' && customEvent.detachAfter) {
+                            customEvent.detachAfter(cfg);
+                        } else {
+                            customEvent.detach(cfg);
+                        }
+                    });
+                }
+            }, 0].concat(args));
+
+            return self; // chain
+        },
+        
+        /**
+         * 解除on事件绑定
+         * @method detachOn
+         * @param {Object} type 事件类型
+         * @param {Object} fn 事件回调
+         * @param {Object} context 事件上下文
+         */
+        detachOn: function() {
+            var args = S.makeArray(arguments);
+            
+            args.push('on');
+            return this.detach.apply(this, args);
+        },
+        
+        /**
+         * 解除after事件绑定
+         * @method detachAfter
+         * @param {Object} type 事件类型
+         * @param {Object} fn 事件回调
+         * @param {Object} context 事件上下文
+         */
+        detachAfter: function() {
+            var args = S.makeArray(arguments);
+            
+            args.push('after');
+            return this.detach.apply(this, args);
         }
         
     });
