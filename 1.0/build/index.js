@@ -179,6 +179,15 @@ KISSY.add('gallery/event-custom-after/1.0/index',function (S) {
                 this.reset = reset;
                 
                 return ret;
+            },
+            
+            /**
+             * 覆盖checkMemory，不需要删除
+             * 1.3版本的bug，detach完把customEvent删去，导致defaultFn也无法执行，1.4已修复
+             * @method checkMemory
+             */
+            checkMemory: function() {
+                
             }
             
         };
