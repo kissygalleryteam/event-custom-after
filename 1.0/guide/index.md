@@ -47,7 +47,7 @@
     
 EventCustomAfter组件提供了绑定after事件的功能，作为Base的扩充类，可以扩充到组件中，上面代码稍作修改
 
-    KISSY.use('base,gallery/event-custom-after/1.0/index', function(S, Base, EventCustomAfter) {
+    KISSY.use('base,gallery/event-custom-after/1.0/', function(S, Base, EventCustomAfter) {
     
         var Select = Base.extend([EventCustomAfter], {
             //...
@@ -129,8 +129,96 @@ EventCustomAfter组件提供了绑定after事件的功能，作为Base的扩充�
             </li>
         </ul>
     </div>
+    <div class="method-item">
+        <h3>detach <code>(type, fn, context, when)</code></h3>
+        <p>同原来detach，多一个when参数</p>
+        <h4>参数</h4>
+        <ul>
+            <li>
+                <code>type</code>
+                <i>(String)</i>
+                <p>时间类型</p>
+            </li>
+            <li>
+                <code>fn</code>
+                <i>(Function)</i>
+                <p>绑定的回调</p>
+            </li>
+            <li>
+                <code>context</code>
+                <i>(Object)</i>
+                <p>回调函数<code>fn</code>执行上下文</p>
+            </li>
+            <li>
+                <code>when</code>
+                <i>(String)</i>
+                <p>事件阶段，on或者after</p>
+            </li>
+        </ul>
+        <h4>返回值</h4>
+        <ul>
+            <li>
+                <code>this</code>
+                <p>可以链式调用</p>
+            </li>
+        </ul>
+    </div>
+    <div class="method-item">
+        <h3>detachOn <code>(type, fn, context)</code></h3>
+        <p>detach(type, fn, context, 'on')的简写</p>
+        <h4>参数</h4>
+        <ul>
+            <li>
+                <code>type</code>
+                <i>(String)</i>
+                <p>时间类型</p>
+            </li>
+            <li>
+                <code>fn</code>
+                <i>(Function)</i>
+                <p>绑定的回调</p>
+            </li>
+            <li>
+                <code>context</code>
+                <i>(Object)</i>
+                <p>回调函数<code>fn</code>执行上下文</p>
+            </li>
+        </ul>
+        <h4>返回值</h4>
+        <ul>
+            <li>
+                <code>this</code>
+                <p>可以链式调用</p>
+            </li>
+        </ul>
+    </div>
+    <div class="method-item">
+        <h3>detachAfter <code>(type, fn, context)</code></h3>
+        <p>detach(type, fn, context, 'after')的简写</p>
+        <h4>参数</h4>
+        <ul>
+            <li>
+                <code>type</code>
+                <i>(String)</i>
+                <p>时间类型</p>
+            </li>
+            <li>
+                <code>fn</code>
+                <i>(Function)</i>
+                <p>绑定的回调</p>
+            </li>
+            <li>
+                <code>context</code>
+                <i>(Object)</i>
+                <p>回调函数<code>fn</code>执行上下文</p>
+            </li>
+        </ul>
+        <h4>返回值</h4>
+        <ul>
+            <li>
+                <code>this</code>
+                <p>可以链式调用</p>
+            </li>
+        </ul>
+    </div>
 </div>
-
-## TODO
-
-* 添加detachOn，detachAfter等针对defaultFn前后阶段的解除绑定方法
